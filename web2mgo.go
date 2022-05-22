@@ -13,7 +13,7 @@ type Mongo struct {
 	Data string
 }
 
-func ODatareq(Name, Data string) {
+func ODatareq(Name, Data string, done chan bool) {
 	session, err := mgo.Dial("mongodb://localhost:27017/testdb")
 	if err != nil {
 		panic(err)
@@ -26,16 +26,19 @@ func ODatareq(Name, Data string) {
 	// is check name in dBase
 	c := session.DB("testdb").C("name")
 	chk := Mongo{}
-	err = c.Find(bson.M{"name": Name}).One(&chk)
+	err = c.Find(bson.M{"name": Name, "data": Data}).One(&chk)
 	if err == nil {
 		log.Print("Name already is to DB", err)
+		done <- false
 	}
 	if err != nil {
 		log.Print("Data for write to DB:", err)
 		err = c.Insert(&Mongo{Name, Data})
 		if err != nil {
 			log.Fatal(err)
+			done <- false
 		}
 		fmt.Println("Name was written:", Name, "\nData was written:", Data)
+		done <- true
 	}
 }
