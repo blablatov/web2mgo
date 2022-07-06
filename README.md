@@ -1,8 +1,8 @@
-## web2mgo
+### web2mgo
 This test driver-connector for data exechange to MongoDB. 
 
-This driver containts module of web-server with parser URL and driver-connector to MongoDB.
-https://github.com/go-mgo/mgo/tree/v2
+This driver containts module of web-server with parser URL and driver-connector to MongoDB.  
+[The MongoDB driver for Go](https://github.com/go-mgo/mgo/tree/v2)
 
 It's working like that:
 
